@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Header -->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Register Here</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Create your account to get started</p>
+        </div>
+    </div>
+</header>
+
+<div class="container" style="padding: 50px;">
+    <div class="row justify-content-center"> <!-- Center align the content -->
+        <div class="col-md-6">
+
+            <!-- Registration Form -->
+            <form method="POST" action="{% url 'register' %}">
+                {% csrf_token %}
+                
+                <!-- Display Form Fields -->
+                {{ form.as_p }}
+
+                <!-- Submit Button -->
+                <div class="text-center"> <!-- Center align the button -->
+                    <button type="submit" class="btn btn-secondary mt-3">
+                        Register
+                    </button>
+                </div>
+            </form>
+            <!-- End Registration Form -->
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
