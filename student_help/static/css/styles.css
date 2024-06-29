@@ -91,6 +91,7 @@
   }
 }
 
+
 body {
   margin: 0;
   font-family: var(--bs-body-font-family);
@@ -463,6 +464,11 @@ legend + * {
 ::file-selector-button {
   font: inherit;
   -webkit-appearance: button;
+}
+/* Vendor prefixed version for WebKit browsers */
+element {
+  -webkit-background-clip: content-box;
+  background-clip: content-box; /* Standard property */
 }
 
 output {
@@ -11560,10 +11566,12 @@ html {
 }
 
 .text-gradient {
-  background: -webkit-linear-gradient(315deg, #1e30f3 0%, #e21e80 100%);
+  background: linear-gradient(to right, #87CEEB, #000080);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
+
 
 .rounded-4 {
   border-radius: 1rem !important;
