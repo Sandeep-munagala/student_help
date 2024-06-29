@@ -25,7 +25,7 @@
                 <!-- Header profile picture-->
                 <div class="d-flex justify-content-center mt-5 mt-xxl-0">
                     <div class="profile" style="background: linear-gradient(to right, #87CEEB, #000080);">
-                        <img class="profile-img" width = "100%" style="border-radius: 10%;" src="{% static 'assets/profile.jpg' %}" alt="..." />
+                        <img class="profile-img" id = "myImage" style="border-radius: 10%;" src="{% static 'assets/profile.jpg' %}" alt="..." />
                         <div class="dots-1">
                             <!-- SVG Dots-->
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 191.6 1215.4" style="enable-background: new 0 0 191.6 1215.4" xml:space="preserve">
@@ -135,7 +135,7 @@
                                     <path d="M227.7,1268.6c-105-35-200-141-222-248c-43-206,163-412,369-369c155,32,275,190,260,339c-11,105-90,213-190,262        C383.7,1281.6,289.7,1288.6,227.7,1268.6z"></path>
                                     <path d="M1507.7,1268.6c-105-35-200-141-222-248c-43-206,163-412,369-369c155,32,275,190,260,339c-11,105-90,213-190,262        C1663.7,1281.6,1569.7,1288.6,1507.7,1268.6z"></path>
                                 </g>
-                            </svg>
+                            </svg>  
                             <!-- END of SVG dots-->
                         </div>
                     </div>
@@ -143,5 +143,29 @@
             </div>
         </div>
     </div>
+    <script>
+        // Get the image element
+        var image = document.getElementById('myImage');
+      
+        // Function to adjust image width based on screen width and condition
+        function adjustImageWidth() {
+          var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+          var maxWidth = screenWidth - 40; // Adjust 40px as needed for margin, padding, etc.
+          
+          // Check if screenWidth is greater than 1400px
+          if (screenWidth > 1400) {
+            image.style.maxWidth = '100%';
+          } else {
+            image.style.maxWidth = maxWidth + 'px';
+          }
+        }
+      
+        // Initial call to adjust image width on page load
+        adjustImageWidth();
+      
+        // Event listener for window resize to readjust image width
+        window.addEventListener('resize', adjustImageWidth);
+      </script>
+          
 </header>
 {% endblock %}
