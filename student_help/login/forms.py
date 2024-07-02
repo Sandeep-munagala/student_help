@@ -2,18 +2,34 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
 
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email Address'}))
     first_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}))
     last_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}))
     dob = forms.DateField(
-    label="",
-    widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'DD-MM-YYYY'}),
-    input_formats=['%d-%m-%Y']
+        label="",
+        widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'DD-MM-YYYY'}),
+        input_formats=['%d-%m-%Y']
     )
     college = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'College Name'}))
     year = forms.IntegerField(label="", widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Year of Study'}))
-    branch = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Branch of Study'}))
+    
+    DEPARTMENT_CHOICES = [
+        ('', 'Select Department'), 
+        ('CSE', 'CSE'),
+        ('CCE', 'CCE'),
+        ('IT', 'IT'),
+        ('ECE', 'ECE'),
+        ('EEE','EEE'),
+        ('ME', 'ME'),
+        ('BIOTECH','BIOTECH'),
+        # Add more department options here
+    ]
+    branch = forms.ChoiceField(label="", choices=DEPARTMENT_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
