@@ -18,29 +18,19 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(255, 255, 255, 0.7); /* Light overlay for readability */
+        background-color: rgba(255, 255, 255, 0); /* Adjust the last value to change the fade intensity */
         z-index: -1;
     }
     
     .register-container {
-        background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background for the form */
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
-        margin-top: -60px; /* Pull up the form to overlap with the header */
+        margin-top: 10px; /* Adjusted margin to bring the register box up */
+        margin-left: auto; /* Align the register container to the left */
+        width: 100%; /* Increased width */
+        max-width: 500px; /* Set a max-width for better responsiveness */
     }
 
     .header-content {
-        text-align: center;
-    }
-
-    .header-content h1 {
-        color: #007bff;
-        font-weight: bold;
-    }
-
-    .header-content p {
-        color: #6c757d;
+        margin-top: 0px; /* Add some top margin to the header content */
     }
 
     .btn-primary {
@@ -52,38 +42,70 @@
         background-color: #0056b3;
         border-color: #004085;
     }
+
+    /* Add hover effects for input fields */
+    .form-control:hover {
+        border-color: #007bff;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+    }
+
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    }
+
+    /* Hover effect for the card */
+    .card:hover {
+        transform: scale(1.02);
+        transition: transform 0.2s ease-in-out;
+    }
 </style>
 
-<!-- Header -->
-<header class="bg-dark py-5">
+<header class="py-5">
     <div class="container px-4 px-lg-5 my-5">
-        <div class="text-center text-white">
-            <h1 class="fw-bolder text-primary">Register Here</h1>
-            <p class="lead fw-normal text-white-50 mb-0">Create your account to get started</p>
+        <div class="row">
+            <div class="col-md-6 header-content">
+                <h1 class="display-4 fw-bolder text-primary">Register Here</h1>
+                <p class="lead fw-normal text-muted mb-0">Create your account to get started</p>
+            </div>
+            <div class="col-md-5 register-container"> <!-- Adjusted column width -->
+                <div class="card border-0 shadow">
+                    <div class="card-body p-4">
+                        <h5 class="card-title text-center mb-4">Register</h5>
+                        <form method="POST" action="{% url 'register' %}">
+                            {% csrf_token %}
+                            <!-- Display Form Fields -->
+                            {{ form.as_p }}
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary w-100 mt-3">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </header>
 
-<div class="container">
-    <div class="row justify-content-center"> <!-- Center align the content -->
-        <div class="col-md-6">
-            <div class="register-container">
-                <!-- Registration Form -->
-                <form method="POST" action="{% url 'register' %}">
-                    {% csrf_token %}
-                    
-                    <!-- Display Form Fields -->
-                    {{ form.as_p }}
-
-                    <!-- Submit Button -->
-                    <div class="text-center"> <!-- Center align the button -->
-                        <button type="submit" class="btn btn-primary w-100 mt-3">Register</button>
-                    </div>
-                </form>
-                <!-- End Registration Form -->
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Add jQuery for dynamic form handling -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Initially hide the fields
+        $('#div_id_year').closest('.form-group').hide();
+        $('#div_id_branch').closest('.form-group').hide();
+        
+        // Show/hide fields based on student type selection
+        $('#id_student_type').change(function() {
+            var studentType = $(this).val();
+            if (studentType === 'Engineering') {
+                $('#div_id_year').closest('.form-group').show();
+                $('#div_id_branch').closest('.form-group').show();
+            } else {
+                $('#div_id_year').closest('.form-group').hide();
+                $('#div_id_branch').closest('.form-group').hide();
+            }
+        });
+    });
+</script>
 
 {% endblock %}

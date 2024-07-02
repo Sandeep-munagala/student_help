@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
 from .forms import SignUpForm
-from .models import UserProfile
+from .models import UserProfile, IntermediateProfile
 
 def home(request):
     return render(request, 'home.html', {})
@@ -26,7 +26,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, "You have been logged in.")
+            #messages.success(request, "You have been logged in.")
             return redirect('log_home')
         else:
             messages.error(request, "Invalid username/password.")
@@ -44,18 +44,25 @@ def register_user(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            UserProfile.objects.create(
-                user=user,
-                dob=form.cleaned_data['dob'],
-                college=form.cleaned_data['college'],
-                year=form.cleaned_data['year'],
-                branch=form.cleaned_data['branch'],
-            )
+            student_type = form.cleaned_data['student_type']
+            if student_type == 'Engineering':
+                UserProfile.objects.create(
+                    user=user,
+                    dob=form.cleaned_data['dob'],
+                    college=form.cleaned_data['college'],
+                    year=form.cleaned_data['year'],
+                    branch=form.cleaned_data['branch'],
+                )
+            elif student_type == 'Intermediate':
+                IntermediateProfile.objects.create(
+                    user=user,
+                    dob=form.cleaned_data['dob'],
+                    college=form.cleaned_data['college'],
+                )
             login(request, user)
             messages.success(request, "Account created successfully.")
             return redirect('home')
         else:
-            # Handle form errors
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"{error}")

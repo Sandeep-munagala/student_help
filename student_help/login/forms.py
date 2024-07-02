@@ -1,22 +1,21 @@
-from django.contrib.auth.forms import UserCreationForm
-from django import forms
-from django.contrib.auth.models import User
-
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 class SignUpForm(UserCreationForm):
+    STUDENT_TYPE_CHOICES = [
+        ('', 'Select Type'),
+        ('Intermediate', 'Intermediate'),
+        ('Engineering', 'Engineering'),
+    ]
+    
+    student_type = forms.ChoiceField(label="", choices=STUDENT_TYPE_CHOICES, widget=forms.Select(attrs={'class': 'form-control', 'id': 'student-type'}))
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email Address'}))
     first_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}))
     last_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}))
-    dob = forms.DateField(
-        label="",
-        widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'DD-MM-YYYY'}),
-        input_formats=['%d-%m-%Y']
-    )
+    dob = forms.DateField(label="", widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'DD-MM-YYYY'}), input_formats=['%d-%m-%Y'])
     college = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'College Name'}))
-    year = forms.IntegerField(label="", widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Year of Study'}))
+    year = forms.IntegerField(label="", widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Year of Study'}), required=False)
     
     DEPARTMENT_CHOICES = [
         ('', 'Select Department'), 
@@ -29,11 +28,11 @@ class SignUpForm(UserCreationForm):
         ('BIOTECH','BIOTECH'),
         # Add more department options here
     ]
-    branch = forms.ChoiceField(label="", choices=DEPARTMENT_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
+    branch = forms.ChoiceField(label="", choices=DEPARTMENT_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}), required=False)
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'dob', 'college', 'year', 'branch', 'password1', 'password2')
+        fields = ('username', 'first_name', 'last_name', 'email', 'dob', 'college', 'year', 'branch', 'student_type', 'password1', 'password2')
 
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)
