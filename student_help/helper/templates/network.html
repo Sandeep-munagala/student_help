@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Page</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+.sidebar-left, .sidebar-right {
+    background-color: white;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex: 1;
+}
+
+.sidebar-left {
+    max-width: 250px;
+}
+
+.sidebar-right {
+    max-width: 300px;
+}
+
+.profile {
+    text-align: center;
+}
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    margin: 10px 0;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #0073b1;
+    font-weight: bold;
+}
+
+.content {
+    flex: 2;
+    background-color: white;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.connections {
+    display: flex;
+    flex-direction: column;
+}
+
+.connection-card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.connection-card:last-child {
+    border-bottom: none;
+}
+
+.connection-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.recommendations {
+    display: flex;
+    flex-direction: column;
+}
+
+.recommendation-card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.recommendation-card:last-child {
+    border-bottom: none;
+}
+
+.recommendation-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.recommendation-info button {
+    background-color: #0073b1;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.recommendation-info button:hover {
+    background-color: #005582;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar-left">
+            <div class="profile">
+                <img src="profile.jpg" alt="Profile Picture" class="profile-img">
+                <h2>John Doe</h2>
+                <p>Software Engineer at Company</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/log_home">Home</a></li>
+                    <li><a href="#">My Network</a></li>
+                    <li><a href="#">Jobs</a></li>
+                    <li><a href="#">Messaging</a></li>
+                    <li><a href="#">Notifications</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="content">
+            <section class="connections">
+                <h1>My Connections</h1>
+                <div class="connection-card">
+                    <img src="connection1.jpg" alt="Connection 1" class="connection-img">
+                    <div class="connection-info">
+                        <h3>Jane Smith</h3>
+                        <p>Product Manager at Company</p>
+                    </div>
+                </div>
+                <div class="connection-card">
+                    <img src="connection2.jpg" alt="Connection 2" class="connection-img">
+                    <div class="connection-info">
+                        <h3>Mike Johnson</h3>
+                        <p>UI/UX Designer at Company</p>
+                    </div>
+                </div>
+                <!-- Add more connections as needed -->
+            </section>
+        </main>
+        <aside class="sidebar-right">
+            <div class="recommendations">
+                <h2>People You May Know</h2>
+                <div class="recommendation-card">
+                    <img src="recommendation1.jpg" alt="Recommendation 1" class="recommendation-img">
+                    <div class="recommendation-info">
+                        <h3>Anna Lee</h3>
+                        <p>Data Scientist at Company</p>
+                        <button>Add</button>
+                    </div>
+                </div>
+                <div class="recommendation-card">
+                    <img src="recommendation2.jpg" alt="Recommendation 2" class="recommendation-img">
+                    <div class="recommendation-info">
+                        <h3>Chris Green</h3>
+                        <p>Marketing Specialist at Company</p>
+                        <button>Add</button>
+                    </div>
+                </div>
+                <!-- Add more recommendations as needed -->
+            </div>
+        </aside>
+    </div>
+</body>
+</html>

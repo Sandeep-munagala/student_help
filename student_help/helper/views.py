@@ -10,3 +10,6 @@ def log_home(request):
     }
     return render(request, 'log_home.html', context)
 
+def network(request):
+    return render(request,'network.html',{})
+

@@ -10,7 +10,7 @@
         background-repeat: no-repeat;
         position: relative;
     }
-    
+
     body::before {
         content: "";
         position: absolute;
@@ -21,7 +21,7 @@
         background-color: rgba(255, 255, 255, 0); /* Adjust the last value to change the fade intensity */
         z-index: -1;
     }
-    
+
     .register-container {
         margin-top: 10px; /* Adjusted margin to bring the register box up */
         margin-left: auto; /* Align the register container to the left */
@@ -90,20 +90,29 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        // Initially hide the fields
-        $('#div_id_year').closest('.form-group').hide();
-        $('#div_id_branch').closest('.form-group').hide();
-        
-        // Show/hide fields based on student type selection
-        $('#id_student_type').change(function() {
-            var studentType = $(this).val();
+        // Function to handle enabling/disabling fields
+        function toggleFields(studentType) {
             if (studentType === 'Engineering') {
                 $('#div_id_year').closest('.form-group').show();
                 $('#div_id_branch').closest('.form-group').show();
-            } else {
+                $('#id_year').prop('disabled', false);
+                $('#id_branch').prop('disabled', false);
+            } else if (studentType === 'Intermediate') {
                 $('#div_id_year').closest('.form-group').hide();
                 $('#div_id_branch').closest('.form-group').hide();
+                $('#id_year').prop('disabled', true).val('');
+                $('#id_branch').prop('disabled', true).val('');
             }
+        }
+        
+        // Initially hide the fields based on current selection
+        var initialStudentType = $('#id_student_type').val();
+        toggleFields(initialStudentType);
+
+        // Show/hide fields based on student type selection
+        $('#id_student_type').change(function() {
+            var studentType = $(this).val();
+            toggleFields(studentType);
         });
     });
 </script>
