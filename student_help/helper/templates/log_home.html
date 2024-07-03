@@ -83,8 +83,13 @@
             <div class="profile-summary">
                 <div class="text-center">
                     <img src="https://via.placeholder.com/100" alt="Profile Picture">
-                    <h4 class="mt-3">{{ user_profile.user.username }}</h4>
-                    <p>{{ user_profile.college }} - {{ user_profile.branch }}</p>
+                    {% if user_profile %}
+                        <h4 class="mt-3">{{ user_profile.user.username }}</h4>
+                        <p>{{ user_profile.college }} - {{ user_profile.branch }}</p>
+                    {% elif intermediate_profile %}
+                        <h4 class="mt-3">{{ intermediate_profile.user.username }}</h4>
+                        <p>{{ intermediate_profile.college }}</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -120,7 +125,13 @@
         postElement.classList.add('post');
 
         postElement.innerHTML = `
-            <div class="post-author">{{ user_profile.user.username }} -- {{user_profile.college}}</div>
+            <div class="post-author">
+                {% if user_profile %}
+                    {{ user_profile.user.username }} -- {{user_profile.college}}
+                {% elif intermediate_profile %}
+                    {{ intermediate_profile.user.username }} -- {{intermediate_profile.college}}
+                {% endif %}
+            </div>
             <div class="post-content">${postContent}</div>
         `;
 
