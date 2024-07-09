@@ -25,7 +25,7 @@
         .profile-summary img {
             border-radius: 50%;
         }
-        .post-creation textarea {
+        .post-creation textarea, .post-creation input {
             resize: none;
         }
         .feed .post {
@@ -39,6 +39,13 @@
             font-weight: bold;
             color: #0073b1;
         }
+        .sidebar {
+            background-color: #ffffff;
+            border-right: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -51,10 +58,10 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-                <a class="nav-link" href=" ">Home</a>
+                <a class="nav-link" href="{% url 'engineering_home' %}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="my_network">My Network</a>
+                <a class="nav-link" href="{% url 'my_network' %}">My Network</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Messaging</a>
@@ -63,7 +70,7 @@
                 <a class="nav-link" href="#">Notifications</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
                     Me
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -78,32 +85,41 @@
 
 <div class="container mt-4">
     <div class="row">
-        <!-- Profile Summary -->
-        <div class="col-md-3">
-            <div class="profile-summary">
-                <div class="text-center">
-                    <img src="https://via.placeholder.com/100" alt="Profile Picture">
-                        <h4 class="mt-3">{{ engineering_profile.user.username }}</h4>
-                        <p>{{ engineering_profile.college }}</p>
-                </div>
+        <!-- Sidebar -->
+        <div class="col-md-3 sidebar">
+            <div class="profile-summary text-center">
+                <img src="https://via.placeholder.com/100" alt="Profile Picture">
+                <h4 class="mt-3">{{ engineering_profile.user.username }}</h4>
+                <p>{{ engineering_profile.college }}</p>
+                <p>{{ engineering_profile.branch }}</p>
             </div>
         </div>
 
         <!-- Main Content -->
         <div class="col-md-9">
-            <!-- Post Creation -->
-            <div class="post-creation mb-4">
-                <form id="post-form">
-                    <div class="form-group">
-                        <textarea class="form-control" id="post-content" rows="3" placeholder="What's on your mind?" required></textarea>
+            <div class="row">
+                <!-- Feed -->
+                <div class="col-md-6">
+                    <div class="feed" id="feed">
+                        <h3>Posts from Intermediate Students</h3>
+                        <!-- More posts will be dynamically added here -->
                     </div>
-                    <button type="submit" class="btn btn-primary">Post</button>
-                </form>
-            </div>
+                </div>
 
-            <!-- Feed -->
-            <div class="feed" id="feed">
-                <!-- More posts will be dynamically added here -->
+                <!-- Post Creation -->
+                <div class="col-md-6">
+                    <div class="post-creation">
+                        <form id="post-form">
+                            <div class="form-group">
+                                <textarea class="form-control" id="post-content" rows="3" placeholder="What's on your mind?" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="file" class="form-control-file" id="post-image">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Post</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -114,23 +130,30 @@
         event.preventDefault();
 
         const postContent = document.getElementById('post-content').value;
+        const postImage = document.getElementById('post-image').files[0];
 
-        // Create new post element
-        const postElement = document.createElement('div');
-        postElement.classList.add('post');
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const postElement = document.createElement('div');
+            postElement.classList.add('post');
+            postElement.innerHTML = `
+                <div class="post-author">
+                    {{ engineering_profile.user.username }} -- {{ engineering_profile.college }} -- {{ engineering_profile.branch }}
+                </div>
+                <div class="post-content">${postContent}</div>
+                ${postImage ? `<img src="${e.target.result}" alt="Post Image" class="img-fluid mt-2">` : ''}
+            `;
+            document.getElementById('feed').prepend(postElement);
+        }
 
-        postElement.innerHTML = `
-            <div class="post-author">
-                    {{ engineering_profile.user.username }} -- {{engineering_profile.college}} -- {{engineering_profile.branch}}
-            </div>
-            <div class="post-content">${postContent}</div>
-        `;
+        if (postImage) {
+            reader.readAsDataURL(postImage);
+        } else {
+            reader.onload();
+        }
 
-        // Append post to the feed
-        document.getElementById('feed').prepend(postElement);
-
-        // Clear the post content
         document.getElementById('post-content').value = '';
+        document.getElementById('post-image').value = '';
     });
 </script>
 

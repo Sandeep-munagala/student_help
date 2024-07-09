@@ -136,6 +136,34 @@ nav ul li a {
     </style>
 </head>
 <body>
+    <nav>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'intermediate_home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="my_network">My Network</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Messaging</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Notifications</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Me
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">View Profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/">Sign Out</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
     <div class="container">
         <aside class="sidebar-left">
             <div class="profile">
@@ -145,7 +173,9 @@ nav ul li a {
             </div>
             <nav>
                 <ul>
-                    <li><a href="/log_home">Home</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'intermediate_home' %}">Home</a>
+                    </li>
                     <li><a href="#">My Network</a></li>
                     <li><a href="#">Jobs</a></li>
                     <li><a href="#">Messaging</a></li>
