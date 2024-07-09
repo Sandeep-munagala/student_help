@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f3f2ef;
+        }
+        .navbar {
+            background-color: #283e4a;
+        }
+        .navbar-brand, .nav-link, .dropdown-toggle {
+            color: #ffffff !important;
+        }
+        .profile-summary, .post-creation, .feed {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        .profile-summary img {
+            border-radius: 50%;
+        }
+        .post-creation textarea {
+            resize: none;
+        }
+        .feed .post {
+            border-bottom: 1px solid #e9ecef;
+            padding: 20px 0;
+        }
+        .feed .post:last-child {
+            border-bottom: none;
+        }
+        .post-author {
+            font-weight: bold;
+            color: #0073b1;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="#">Student Help</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href=" ">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="my_network">My Network</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Messaging</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Notifications</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Me
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">View Profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/">Sign Out</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Profile Summary -->
+        <div class="col-md-3">
+            <div class="profile-summary">
+                <div class="text-center">
+                    <img src="https://via.placeholder.com/100" alt="Profile Picture">
+                        <h4 class="mt-3">{{ intermediate_profile.user.username }}</h4>
+                        <p>{{ intermediate_profile.college }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <!-- Department Filter -->
+            <div class="mb-4">
+                <select class="form-control" id="department-filter">
+                    <option value="">All Departments</option>
+                    <option value="CSE">CSE</option>
+                    <option value="CCE">CCE</option>
+                    <option value="IT">IT</option>
+                    <option value="ECE">ECE</option>
+                    <option value="EEE">EEE</option>
+                    <option value="ME">ME</option>
+                    <option value="BIOTECH">BIOTECH</option>
+                </select>
+            </div>
+
+            <!-- Post Creation -->
+            <div class="post-creation mb-4">
+                <form id="post-form">
+                    <div class="form-group">
+                        <textarea class="form-control" id="post-content" rows="3" placeholder="What's on your mind?" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Post</button>
+                </form>
+            </div>
+
+            <!-- Feed -->
+            <div class="feed" id="feed">
+                <!-- More posts will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('post-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const postContent = document.getElementById('post-content').value;
+
+        // Create new post element
+        const postElement = document.createElement('div');
+        postElement.classList.add('post');
+
+        postElement.innerHTML = `
+            <div class="post-author">
+                {% if user_profile %}
+                    {{ user_profile.user.username }} -- {{user_profile.college}} -- {{user_profile.branch}}
+                {% elif intermediate_profile %}
+                    {{ intermediate_profile.user.username }} -- {{intermediate_profile.college}}
+                {% endif %}
+            </div>
+            <div class="post-content">${postContent}</div>
+        `;
+
+        // Append post to the feed
+        document.getElementById('feed').prepend(postElement);
+
+        // Clear the post content
+        document.getElementById('post-content').value = '';
+    });
+
+    document.getElementById('department-filter').addEventListener('change', function() {
+        const selectedDepartment = this.value;
+
+        const posts = document.querySelectorAll('.post');
+        posts.forEach(post => {
+            const postAuthor = post.querySelector('.post-author').textContent;
+            if (selectedDepartment === "" || postAuthor.includes(selectedDepartment)) {
+                post.style.display = 'block';
+            } else {
+                post.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

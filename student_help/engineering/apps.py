@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class HelperConfig(AppConfig):
+class EngineeringConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "helper"
+    name = "engineering"

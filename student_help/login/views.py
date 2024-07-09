@@ -26,8 +26,17 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            #messages.success(request, "You have been logged in.")
-            return redirect('log_home')
+            # Check the type of profile and redirect accordingly
+            try:
+                user_profile = UserProfile.objects.get(user=user)
+                return redirect('engineering_home')
+            except UserProfile.DoesNotExist:
+                try:
+                    intermediate_profile = IntermediateProfile.objects.get(user=user)
+                    return redirect('intermediate_home')
+                except IntermediateProfile.DoesNotExist:
+                    messages.error(request, "Profile does not exist.")
+                    return redirect('login')
         else:
             messages.error(request, "Invalid username/password.")
             return redirect('login')
