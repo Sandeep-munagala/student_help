@@ -19,13 +19,12 @@ class SignUpForm(UserCreationForm):
     minor = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'minor'}))
     DEPARTMENT_CHOICES = [
         ('', 'Select Department'), 
-        ('CSE', 'CSE'),
-        ('CCE', 'CCE'),
-        ('IT', 'IT'),
-        ('ECE', 'ECE'),
-        ('EEE','EEE'),
-        ('ME', 'ME'),
-        ('BIOTECH','BIOTECH'),
+        ('Computer Science', 'Computer Science'),
+        ('Electrical and Communication', 'Electrical and Communication'),
+        ('Mechanical', 'Mechanical'),
+        ('Civil', 'Civil'),
+        ('Chemical','Chemical'),
+        ('Others', 'Others'),
         # Add more department options here
     ]
     department = forms.ChoiceField(label="", choices=DEPARTMENT_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}), required=False)
