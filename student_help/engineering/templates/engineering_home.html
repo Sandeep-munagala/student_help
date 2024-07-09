@@ -70,7 +70,7 @@
                 <a class="nav-link" href="#">Notifications</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Me
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -91,7 +91,8 @@
                 <img src="https://via.placeholder.com/100" alt="Profile Picture">
                 <h4 class="mt-3">{{ engineering_profile.user.username }}</h4>
                 <p>{{ engineering_profile.college }}</p>
-                <p>{{ engineering_profile.branch }}</p>
+                <p>{{ engineering_profile.department}}</p>
+                <p>{{ engineering_profile.minor}}</p>
             </div>
         </div>
 
@@ -138,7 +139,7 @@
             postElement.classList.add('post');
             postElement.innerHTML = `
                 <div class="post-author">
-                    {{ engineering_profile.user.username }} -- {{ engineering_profile.college }} -- {{ engineering_profile.branch }}
+                    {{ engineering_profile.user.username }} -- {{ engineering_profile.college }} -- {{ engineering_profile.department }}
                 </div>
                 <div class="post-content">${postContent}</div>
                 ${postImage ? `<img src="${e.target.result}" alt="Post Image" class="img-fluid mt-2">` : ''}

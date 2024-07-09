@@ -60,7 +60,8 @@ def register_user(request):
                     dob=form.cleaned_data['dob'],
                     college=form.cleaned_data['college'],
                     year=form.cleaned_data['year'],
-                    branch=form.cleaned_data['branch'],
+                    department=form.cleaned_data['department'],
+                    minor = form.cleaned_data['minor'],
                 )
             elif student_type == 'Intermediate':
                 IntermediateProfile.objects.create(

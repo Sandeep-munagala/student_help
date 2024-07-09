@@ -94,14 +94,18 @@
         function toggleFields(studentType) {
             if (studentType === 'Engineering') {
                 $('#div_id_year').closest('.form-group').show();
-                $('#div_id_branch').closest('.form-group').show();
+                $('#div_id_department').closest('.form-group').show();
+                $('#div_id_minor').closest('.form-group').show();
                 $('#id_year').prop('disabled', false);
-                $('#id_branch').prop('disabled', false);
+                $('#id_department').prop('disabled', false);
+                $('#id_minor').prop('disabled', false);
             } else if (studentType === 'Intermediate') {
                 $('#div_id_year').closest('.form-group').hide();
-                $('#div_id_branch').closest('.form-group').hide();
+                $('#div_id_department').closest('.form-group').hide();
+                $('#div_id_minor').closest('.form-group').hide();
                 $('#id_year').prop('disabled', true).val('');
-                $('#id_branch').prop('disabled', true).val('');
+                $('#id_department').prop('disabled', true).val('');
+                $('#id_minor').prop('disabled', true).val('');
             }
         }
         

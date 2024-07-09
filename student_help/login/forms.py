@@ -16,7 +16,7 @@ class SignUpForm(UserCreationForm):
     dob = forms.DateField(label="", widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'DD-MM-YYYY'}), input_formats=['%d-%m-%Y'])
     college = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'College Name'}))
     year = forms.IntegerField(label="", widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Year of Study'}), required=False)
-    
+    minor = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'minor'}))
     DEPARTMENT_CHOICES = [
         ('', 'Select Department'), 
         ('CSE', 'CSE'),
@@ -28,11 +28,11 @@ class SignUpForm(UserCreationForm):
         ('BIOTECH','BIOTECH'),
         # Add more department options here
     ]
-    branch = forms.ChoiceField(label="", choices=DEPARTMENT_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}), required=False)
+    department = forms.ChoiceField(label="", choices=DEPARTMENT_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}), required=False)
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'dob', 'college', 'student_type', 'year', 'branch', 'password1', 'password2')
+        fields = ('username', 'first_name', 'last_name', 'email', 'dob', 'college', 'student_type', 'year', 'department','minor','password1', 'password2')
 
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)
