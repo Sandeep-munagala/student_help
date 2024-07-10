@@ -18,7 +18,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(255, 255, 255, 0); /* Adjust the last value to change the fade intensity */
+        background-color: rgba(255, 255, 255, 0.7); /* Adjust the last value to change the fade intensity */
         z-index: -1;
     }
 
@@ -59,6 +59,11 @@
         transform: scale(1.02);
         transition: transform 0.2s ease-in-out;
     }
+
+    /* Conditional display styles for forms */
+    .form-hidden {
+        display: none;
+    }
 </style>
 
 <header class="py-5">
@@ -72,13 +77,39 @@
                 <div class="card border-0 shadow">
                     <div class="card-body p-4">
                         <h5 class="card-title text-center mb-4">Register</h5>
-                        <form method="POST" action="{% url 'register' %}">
-                            {% csrf_token %}
-                            <!-- Display Form Fields -->
-                            {{ form.as_p }}
-                            <!-- Submit Button -->
-                            <button type="submit" class="btn btn-primary w-100 mt-3">Register</button>
-                        </form>
+                        
+                        <!-- Toggle button for switching forms -->
+                        <div class="btn-group w-100 mb-4" role="group" aria-label="Toggle forms">
+                            <button type="button" class="btn btn-outline-primary" id="toggle-engineering">Engineering</button>
+                            <button type="button" class="btn btn-outline-secondary" id="toggle-intermediate">Intermediate</button>
+                        </div>
+
+                        <!-- Engineering Registration Form -->
+                        <div id="engineering-form" class="{% if form_type != 'engineering' %}form-hidden{% endif %}">
+                            <form method="POST" action="{% url 'register_engineering' %}">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <div id="engineering-other-college-field" style="display: none;">
+                                    <label for="id_engineering_other_college">Other College</label>
+                                    <input type="text" name="engineering_other_college" class="form-control" id="id_engineering_other_college">
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 mt-3">Register</button>
+                            </form>
+                        </div>
+
+                        <!-- Intermediate Registration Form -->
+                        <div id="intermediate-form" class="{% if form_type != 'intermediate' %}form-hidden{% endif %}">
+                            <form method="POST" action="{% url 'register_intermediate' %}">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <div id="intermediate-other-college-field" style="display: none;">
+                                    <label for="id_intermediate_other_college">Other College</label>
+                                    <input type="text" name="intermediate_other_college" class="form-control" id="id_intermediate_other_college">
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 mt-3">Register</button>
+                            </form>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -90,34 +121,44 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        // Function to handle enabling/disabling fields
-        function toggleFields(studentType) {
-            if (studentType === 'Engineering') {
-                $('#div_id_year').closest('.form-group').show();
-                $('#div_id_department').closest('.form-group').show();
-                $('#div_id_minor').closest('.form-group').show();
-                $('#id_year').prop('disabled', false);
-                $('#id_department').prop('disabled', false);
-                $('#id_minor').prop('disabled', false);
-            } else if (studentType === 'Intermediate') {
-                $('#div_id_year').closest('.form-group').hide();
-                $('#div_id_department').closest('.form-group').hide();
-                $('#div_id_minor').closest('.form-group').hide();
-                $('#id_year').prop('disabled', true).val('');
-                $('#id_department').prop('disabled', true).val('');
-                $('#id_minor').prop('disabled', true).val('');
-            }
-        }
-        
-        // Initially hide the fields based on current selection
-        var initialStudentType = $('#id_student_type').val();
-        toggleFields(initialStudentType);
-
-        // Show/hide fields based on student type selection
-        $('#id_student_type').change(function() {
-            var studentType = $(this).val();
-            toggleFields(studentType);
+        // Redirect to the appropriate view when toggling
+        $('#toggle-engineering').click(function() {
+            window.location.href = "{% url 'register_engineering' %}";
         });
+
+        $('#toggle-intermediate').click(function() {
+            window.location.href = "{% url 'register_intermediate' %}";
+        });
+
+        // Show/hide the other college field for Engineering form
+        $('select[name="college"]').change(function() {
+            if ($(this).val() === 'Other') {
+                $('#engineering-other-college-field').show();
+            } else {
+                $('#engineering-other-college-field').hide();
+                $('#id_engineering_other_college').val('');
+            }
+        });
+
+        // Initially hide the other college field for Engineering form if not selected
+        if ($('select[name="college"]').val() !== 'Other') {
+            $('#engineering-other-college-field').hide();
+        }
+
+        // Show/hide the other college field for Intermediate form
+        $('select[name="college"]').change(function() {
+            if ($(this).val() === 'Other') {
+                $('#intermediate-other-college-field').show();
+            } else {
+                $('#intermediate-other-college-field').hide();
+                $('#id_intermediate_other_college').val('');
+            }
+        });
+
+        // Initially hide the other college field for Intermediate form if not selected
+        if ($('select[name="college"]').val() !== 'Other') {
+            $('#intermediate-other-college-field').hide();
+        }
     });
 </script>
 

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import EngineeringSignUpForm, IntermediateSignUpForm
 from .models import UserProfile, IntermediateProfile
 
 def home(request):
@@ -48,27 +48,19 @@ def logout_user(request):
     messages.success(request, "You have been logged out.")
     return redirect('home')
 
-def register_user(request):
-    if request.method == "POST":
-        form = SignUpForm(request.POST)
+def register_engineering(request):
+    if request.method == 'POST':
+        form = EngineeringSignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            student_type = form.cleaned_data['student_type']
-            if student_type == 'Engineering':
-                UserProfile.objects.create(
-                    user=user,
-                    dob=form.cleaned_data['dob'],
-                    college=form.cleaned_data['college'],
-                    year=form.cleaned_data['year'],
-                    department=form.cleaned_data['department'],
-                    minor = form.cleaned_data['minor'],
-                )
-            elif student_type == 'Intermediate':
-                IntermediateProfile.objects.create(
-                    user=user,
-                    dob=form.cleaned_data['dob'],
-                    college=form.cleaned_data['college'],
-                )
+            UserProfile.objects.create(
+                user=user,
+                dob=form.cleaned_data.get('dob'),
+                college=form.cleaned_data.get('college'),
+                year=form.cleaned_data.get('year'),
+                department=form.cleaned_data.get('department'),
+                minor=form.cleaned_data.get('minor'),
+            )
             login(request, user)
             messages.success(request, "Account created successfully.")
             return redirect('home')
@@ -76,7 +68,31 @@ def register_user(request):
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"{error}")
-            return redirect('register')
+            return redirect('register_engineering')  # Redirect to registration page or handle as per your URL setup
     else:
-        form = SignUpForm()
-    return render(request, 'register.html', {'form': form})
+        form = EngineeringSignUpForm()
+    return render(request, 'register.html', {'form': form, 'form_type': 'engineering'})
+
+def register_intermediate(request):
+    if request.method == 'POST':
+        form = IntermediateSignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            IntermediateProfile.objects.create(
+                user=user,
+                dob=form.cleaned_data.get('dob'),
+                college=form.cleaned_data.get('college'),
+            )
+            login(request, user)
+            messages.success(request, "Account created successfully.")
+            return redirect('home')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{error}")
+            return redirect('register_intermediate')  # Redirect to registration page or handle as per your URL setup
+    else:
+        form = IntermediateSignUpForm()
+    return render(request, 'register.html', {'form': form, 'form_type': 'intermediate'})
+
+

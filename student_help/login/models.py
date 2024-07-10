@@ -19,3 +19,9 @@ class IntermediateProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+class College(models.Model):
+    college = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.college
