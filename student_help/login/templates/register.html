@@ -80,20 +80,21 @@
                         
                         <!-- Toggle button for switching forms -->
                         <div class="btn-group w-100 mb-4" role="group" aria-label="Toggle forms">
-                            <button type="button" class="btn btn-outline-primary" id="toggle-engineering">Engineering</button>
-                            <button type="button" class="btn btn-outline-secondary" id="toggle-intermediate">Intermediate</button>
-                        </div>
+                            <a class="btn btn-outline-primary" href="{% url 'register_engineering' %}" id="toggle-engineering">Engineering</a>
+                            <a class="btn btn-outline-secondary" href="{% url 'register_intermediate' %}" id="toggle-intermediate">Intermediate</a>
+                        </div>                        
 
                         <!-- Engineering Registration Form -->
                         <div id="engineering-form" class="{% if form_type != 'engineering' %}form-hidden{% endif %}">
                             <form method="POST" action="{% url 'register_engineering' %}">
                                 {% csrf_token %}
                                 {{ form.as_p }}
-                                <div id="engineering-other-college-field" style="display: none;">
+                                <div id="engineering-other-college-field" class="form-group" style="display: none;">
                                     <label for="id_engineering_other_college">Other College</label>
                                     <input type="text" name="engineering_other_college" class="form-control" id="id_engineering_other_college">
+                                    <br>
                                 </div>
-                                <button type="submit" class="btn btn-primary w-100 mt-3">Register</button>
+                                <button type="submit" class="btn btn-primary">Register</button>
                             </form>
                         </div>
 
@@ -102,14 +103,9 @@
                             <form method="POST" action="{% url 'register_intermediate' %}">
                                 {% csrf_token %}
                                 {{ form.as_p }}
-                                <div id="intermediate-other-college-field" style="display: none;">
-                                    <label for="id_intermediate_other_college">Other College</label>
-                                    <input type="text" name="intermediate_other_college" class="form-control" id="id_intermediate_other_college">
-                                </div>
-                                <button type="submit" class="btn btn-primary w-100 mt-3">Register</button>
+                                <button type="submit" class="btn btn-primary">Register</button>
                             </form>
                         </div>
-                        
                     </div>
                 </div>
             </div>
@@ -117,47 +113,35 @@
     </div>
 </header>
 
-<!-- Add jQuery for dynamic form handling -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-        // Redirect to the appropriate view when toggling
-        $('#toggle-engineering').click(function() {
-            window.location.href = "{% url 'register_engineering' %}";
-        });
+    // Script for toggling between forms
+    document.getElementById('toggle-engineering').addEventListener('click', function() {
+        document.getElementById('engineering-form').classList.remove('form-hidden');
+        document.getElementById('intermediate-form').classList.add('form-hidden');
+    });
 
-        $('#toggle-intermediate').click(function() {
-            window.location.href = "{% url 'register_intermediate' %}";
-        });
+    document.getElementById('toggle-intermediate').addEventListener('click', function() {
+        document.getElementById('intermediate-form').classList.remove('form-hidden');
+        document.getElementById('engineering-form').classList.add('form-hidden');
+    });
 
-        // Show/hide the other college field for Engineering form
-        $('select[name="college"]').change(function() {
-            if ($(this).val() === 'Other') {
-                $('#engineering-other-college-field').show();
-            } else {
-                $('#engineering-other-college-field').hide();
-                $('#id_engineering_other_college').val('');
-            }
-        });
-
-        // Initially hide the other college field for Engineering form if not selected
-        if ($('select[name="college"]').val() !== 'Other') {
-            $('#engineering-other-college-field').hide();
+    // Script for toggling the other college name field
+    document.getElementById('id_college').addEventListener('change', function() {
+        var otherCollegeField = document.getElementById('engineering-other-college-field');
+        if (this.value === 'Others') {
+            otherCollegeField.style.display = 'block';
+        } else {
+            otherCollegeField.style.display = 'none';
         }
+    });
 
-        // Show/hide the other college field for Intermediate form
-        $('select[name="college"]').change(function() {
-            if ($(this).val() === 'Other') {
-                $('#intermediate-other-college-field').show();
-            } else {
-                $('#intermediate-other-college-field').hide();
-                $('#id_intermediate_other_college').val('');
-            }
-        });
+    // Initially hide the other college name field if not selected
+    window.addEventListener('DOMContentLoaded', function() {
+        var collegeField = document.getElementById('id_college');
+        var otherCollegeField = document.getElementById('engineering-other-college-field');
 
-        // Initially hide the other college field for Intermediate form if not selected
-        if ($('select[name="college"]').val() !== 'Other') {
-            $('#intermediate-other-college-field').hide();
+        if (collegeField.value !== 'Others') {
+            otherCollegeField.style.display = 'none';
         }
     });
 </script>
