@@ -89,10 +89,9 @@
                             <form method="POST" action="{% url 'register_engineering' %}">
                                 {% csrf_token %}
                                 {{ form.as_p }}
-                                <div id="engineering-other-college-field" class="form-group" style="display: none;">
+                                <div class="form-group" id="engineering-other-college-field" style="display: none;">
                                     <label for="id_engineering_other_college">Other College</label>
-                                    <input type="text" name="engineering_other_college" class="form-control" id="id_engineering_other_college">
-                                    <br>
+                                    <input type="text" name="other_college" class="form-control" id="id_engineering_other_college"><br>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Register</button>
                             </form>
