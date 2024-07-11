@@ -25,3 +25,12 @@ class College(models.Model):
 
     def __str__(self):
         return self.college
+    
+class Connection(models.Model):
+    intermediate_profile = models.ForeignKey(IntermediateProfile, on_delete=models.CASCADE, related_name='connections_as_intermediate')
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='connections_as_user')
+    is_connected = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Connection from {self.intermediate_profile.user.username} to {self.user_profile.user.username} - {'Connected' if self.is_connected else 'Pending'}"
